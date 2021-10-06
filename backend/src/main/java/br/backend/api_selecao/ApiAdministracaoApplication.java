@@ -1,4 +1,4 @@
-package br.backend.apiselecao;
+package br.backend.api_selecao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
