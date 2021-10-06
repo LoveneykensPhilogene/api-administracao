@@ -1,22 +1,30 @@
 package br.backend.api_selecao.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Setor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nome;
+	
+	@OneToMany(mappedBy="setor")
+	private List<Cargo> cargo;
+	
+	@OneToMany(mappedBy="setorTrabalhador")
+	private List<Trabalhador> trabalhador;
 
 	public Setor() {
 	}
@@ -40,6 +48,14 @@ public class Setor implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public List<Cargo> getCargo() {
+		return cargo;
+	}
+
+	public List<Trabalhador> getTrabalhador() {
+		return trabalhador;
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Trabalhador implements Serializable {
@@ -21,15 +23,25 @@ public class Trabalhador implements Serializable {
 	private String cpf;
 
 	private String sexo;
+	
+	@ManyToOne
+	@JoinColumn(name="setor_id")
+	private Setor setorTrabalhador;
+	
+	@ManyToOne
+	@JoinColumn(name="cargo_id")
+	private Cargo cargo;
 
 	public Trabalhador() {
 	}
 
-	public Trabalhador(Long id, String nome, String cpf, String sexo) {
+	public Trabalhador(Long id, String nome, String cpf, String sexo, Setor setorTrabalhador,Cargo cargo) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.sexo = sexo;
+		this.setorTrabalhador=setorTrabalhador;
+		this.cargo=cargo;
 	}
 
 	public Long getId() {
@@ -62,6 +74,22 @@ public class Trabalhador implements Serializable {
 
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
+	}
+
+	public Setor getSetorTrabalhador() {
+		return setorTrabalhador;
+	}
+
+	public void setSetorTrabalhador(Setor setorTrabalhador) {
+		this.setorTrabalhador = setorTrabalhador;
+	}
+
+	public Cargo getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
 	}
 
 	@Override

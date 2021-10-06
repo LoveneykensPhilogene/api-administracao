@@ -1,11 +1,15 @@
 package br.backend.api_selecao.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Cargo implements Serializable {
@@ -17,13 +21,21 @@ public class Cargo implements Serializable {
 	private Long id;
 
 	private String nome;
+	
+	@ManyToOne
+	@JoinColumn(name="setor_id")
+	private Setor setor;
+	
+	@OneToMany(mappedBy="cargo")
+	private List<Trabalhador> cargoTrabalhador;
 
 	public Cargo() {
 	}
 
-	public Cargo(Long id, String nome) {
+	public Cargo(Long id, String nome,Setor setor) {
 		this.id = id;
 		this.nome = nome;
+		this.setor=setor;
 	}
 
 	public Long getId() {
@@ -40,6 +52,18 @@ public class Cargo implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Setor getSetor() {
+		return setor;
+	}
+
+	public void setSetor(Setor setor) {
+		this.setor = setor;
+	}
+
+	public List<Trabalhador> getCargoTrabalhador() {
+		return cargoTrabalhador;
 	}
 
 	@Override
