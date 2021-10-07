@@ -3,6 +3,7 @@ package br.backend.api_selecao.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,31 +12,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.sun.istack.NotNull;
+
 @Entity
 public class Cargo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column
+	@NotNull
 	private String nome;
-	
+
 	@ManyToOne
-	@JoinColumn(name="setor_id")
+	@JoinColumn(name = "setor_id")
 	private Setor setor;
-	
-	@OneToMany(mappedBy="cargo")
+
+	@OneToMany(mappedBy = "cargo")
 	private List<Trabalhador> cargoTrabalhador;
 
 	public Cargo() {
 	}
 
-	public Cargo(Long id, String nome,Setor setor) {
+	public Cargo(Long id, String nome, Setor setor) {
 		this.id = id;
 		this.nome = nome;
-		this.setor=setor;
+		this.setor = setor;
 	}
 
 	public Long getId() {
