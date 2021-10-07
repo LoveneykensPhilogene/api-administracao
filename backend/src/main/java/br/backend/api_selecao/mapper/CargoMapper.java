@@ -9,8 +9,6 @@ import br.backend.api_selecao.entities.Cargo;
 @Mapper
 public interface CargoMapper {
 
-	CargoMapper INSTANCE = Mappers.getMapper(CargoMapper.class);
-
 	Cargo model(CargoDto cargoDto);
 
 	CargoDto modelDto(Cargo cargo);
