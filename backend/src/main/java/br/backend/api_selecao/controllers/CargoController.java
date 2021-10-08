@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.backend.api_selecao.dto.CargoDto;
 import br.backend.api_selecao.services.CargoService;
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/")
@@ -25,7 +26,7 @@ public class CargoController {
 
 	@PostMapping("/cargo/{idSetor}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public CargoDto criarCargo(@Validated @RequestBody CargoDto cargo, @Validated @PathVariable Long idSetor) {
+	public CargoDto criarCargo(@Validated @RequestBody CargoDto cargo, @Validated @PathVariable Long idSetor) throws NotFoundException {
 
 		return cargoService.criar(cargo, idSetor);
 	}

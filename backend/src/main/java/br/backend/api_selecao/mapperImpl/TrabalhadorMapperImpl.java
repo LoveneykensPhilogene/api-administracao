@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.backend.api_selecao.dto.CargoDto;
 import br.backend.api_selecao.dto.TrabalhadorDto;
 import br.backend.api_selecao.entities.Cargo;
+import br.backend.api_selecao.entities.Setor;
 import br.backend.api_selecao.entities.Trabalhador;
 import br.backend.api_selecao.mapper.TrabalhadorMapper;
 
@@ -40,40 +41,11 @@ public class TrabalhadorMapperImpl implements TrabalhadorMapper {
 		tDto.setNome(trabalhador.getNome());
 		tDto.setCpf(trabalhador.getCpf());
 		tDto.setSexo(trabalhador.getSexo());
-		tDto.setCargoDto(cargoMapperImpl.modelDto(trabalhador.getCargo()));
-		tDto.setSetorTrabalhadorDto(setorMapperImpl.modelDto(trabalhador.getSetorTrabalhador()));
+		tDto.setCargoDto(null);
+		tDto.setSetorTrabalhadorDto(null);
+		
 		return tDto;
 	}
 
-	public List<TrabalhadorDto> listasDto(List<Trabalhador> trabalhadores) {
-
-		List<TrabalhadorDto> trabalhadoresDto = new ArrayList<>();
-
-		for (Trabalhador trabalhador : trabalhadores) {
-			if (trabalhador == null) {
-				trabalhadoresDto.add(new TrabalhadorDto());
-			} else {
-				trabalhadoresDto.add(modelDto(trabalhador));
-			}
-		}
-		return trabalhadoresDto;
-
-	}
-
-	public List<Trabalhador> listas(List<TrabalhadorDto> TrabalhadoresDto) {
-
-		List<Trabalhador> trabalhadores = new ArrayList<>();
-
-		for (TrabalhadorDto trabalhadorDto : TrabalhadoresDto) {
-			if (trabalhadorDto == null) {
-				// trabalhadorDto=new TrabalhadorDto();
-				trabalhadores.add(new Trabalhador());
-			} else {
-				trabalhadores.add(model(trabalhadorDto));
-			}
-		}
-		return trabalhadores;
-
-	}
-
+	
 }

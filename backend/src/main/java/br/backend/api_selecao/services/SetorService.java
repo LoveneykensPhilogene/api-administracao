@@ -1,5 +1,6 @@
 package br.backend.api_selecao.services;
 
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,8 @@ public class SetorService {
 	private SetorMapperImpl setorMapperImpl;
 
 	public SetorDto criar(SetorDto setorDto) {
-		if ((setorDto.getNome() == "")) {
-			return null;
+		if ((setorDto.getNome().isEmpty())) {
+			throw new EmptyStackException();
 		} else {
 			Setor setor = new Setor();
 			setor.setNome(setorDto.getNome());
@@ -41,7 +42,7 @@ public class SetorService {
 
 		List<Setor> setores = setorRepository.findAll();
 
-		return setores.stream().map(setorMapperImpl::modelDto).collect(Collectors.toList());
+		return setores.stream().map(SetorDto::new).collect(Collectors.toList());
 
 	}
 
@@ -51,9 +52,10 @@ public class SetorService {
 		Setor setor = setorRepository.findByNome(nome);
 		cargo.setSetor(setor);
 		setor.getCargo().add(cargo);
+		cargoRepository.save(cargo);
 		setorRepository.save(setor);
 
-		return setorMapperImpl.modelDto(setor);
+		return new SetorDto(setor);
 
 	}
 

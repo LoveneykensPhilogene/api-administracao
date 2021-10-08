@@ -1,7 +1,12 @@
 package br.backend.api_selecao.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
+import br.backend.api_selecao.entities.Cargo;
+import br.backend.api_selecao.entities.Setor;
+import br.backend.api_selecao.entities.Trabalhador;
 
 public class CargoDto implements Serializable {
 
@@ -15,13 +20,35 @@ public class CargoDto implements Serializable {
 
 	private List<TrabalhadorDto> cargoTrabalhadorDto;
 
-	public CargoDto() {
-	}
-
 	public CargoDto(Long id, String nome, SetorDto setor) {
 		this.id = id;
 		this.nome = nome;
 		this.setor = setor;
+	}
+
+	public CargoDto() {
+	}
+
+	public CargoDto(Cargo cargo) {
+
+		if (cargo.getCargoTrabalhador()==null) {
+			this.setId(cargo.getId());
+			this.setNome(cargo.getNome());
+			this.setSetor(new SetorDto(cargo.getSetor()));
+	
+		} else {
+			this.setId(cargo.getId());
+			this.setNome(cargo.getNome());
+			this.setSetor(new SetorDto(cargo.getSetor()));
+			this.cargoTrabalhadorDto = new ArrayList<>();
+
+			for (Trabalhador trabalhador : cargo.getCargoTrabalhador()) {
+				cargoTrabalhadorDto.add(new TrabalhadorDto(trabalhador));
+			}
+			
+		}
+
+		
 	}
 
 	public Long getId() {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.backend.api_selecao.dto.TrabalhadorDto;
 import br.backend.api_selecao.services.TrabalhadorService;
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/")
@@ -24,14 +25,14 @@ public class TrabalhadorController {
 	@PostMapping("trabalhador")
 	@ResponseStatus(HttpStatus.CREATED)
 	public TrabalhadorDto criarTrabalhador(@Validated @RequestBody TrabalhadorDto trabalhadorDto,
-			@Validated @RequestParam("idSetor") Long id, @Validated @RequestParam("idCargo") Long idCargo) {
+			@Validated @RequestParam("idSetor") Long id, @Validated @RequestParam("idCargo") Long idCargo) throws NotFoundException {
 		return trabalhadorService.adicionar(trabalhadorDto, id, idCargo);
 	}
 
 	@PutMapping("/trabalhador")
 	@ResponseStatus(HttpStatus.OK)
 	public TrabalhadorDto atualizar(@Validated @RequestBody TrabalhadorDto t,
-			@Validated @RequestParam("idTrabalhador") Long id) {
+			@Validated @RequestParam("idTrabalhador") Long id) throws Exception {
 		return trabalhadorService.atualizar(t, id);
 	}
 

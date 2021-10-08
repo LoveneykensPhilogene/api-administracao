@@ -29,15 +29,15 @@ public class SwaggerConfig {
 	 * 
 	 * .apiInfo(apiInfo()); //.globalResponseMessage(RequestMethod.GET,
 	 * responseMessageForGET())
-	 * //.securityContexts(Arrays.asList(securityContext())) }
+	 * .securityContexts(Arrays.asList(securityContext())) }
 	 * 
 	 * private ApiInfo apiInfo() { return new ApiInfoBuilder()
 	 * .title("Simple Spring Boot REST API") .description("") .version("1.0.0")
 	 * .license("Apache License Version 2.0")
 	 * .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
 	 * 
-	 * .build(); //.contact(new Contact("Wladimilson", "https://treinaweb.com.br",
-	 * "contato@treinaweb.com.br")) }
+	 * .build(); 
+	 )) }
 	 */
 
 }

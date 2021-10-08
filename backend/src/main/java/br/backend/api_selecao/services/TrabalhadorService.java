@@ -1,16 +1,19 @@
 package br.backend.api_selecao.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Service;
 
 import br.backend.api_selecao.dto.TrabalhadorDto;
 import br.backend.api_selecao.entities.Cargo;
 import br.backend.api_selecao.entities.Setor;
 import br.backend.api_selecao.entities.Trabalhador;
-import br.backend.api_selecao.mapperImpl.TrabalhadorMapperImpl;
 import br.backend.api_selecao.repositories.CargoRepository;
 import br.backend.api_selecao.repositories.SetorRepository;
 import br.backend.api_selecao.repositories.TrabalhadorRepository;
+import javassist.NotFoundException;
 
 @Service
 public class TrabalhadorService {
@@ -24,39 +27,53 @@ public class TrabalhadorService {
 	@Autowired
 	private CargoRepository cargoRepository;
 
-	@Autowired
-	private TrabalhadorMapperImpl trabalhadorMapperImpl;
-
-	public TrabalhadorDto adicionar(TrabalhadorDto trabalhadorDto, Long idSetor, Long idCargo) {
+	public TrabalhadorDto adicionar(TrabalhadorDto trabalhadorDto, Long idSetor, Long idCargo)
+			throws NotFoundException {
 
 		Trabalhador trabalhador = new Trabalhador();
 
-		Setor setor = setorRepository.findById(idCargo).get();
+		Optional<Setor> setorOptional = setorRepository.findById(idSetor);
 
-		Cargo cargo = cargoRepository.findById(idCargo).get();
+		Optional<Cargo> cargoOptional = cargoRepository.findById(idCargo);
 
-		trabalhador.setNome(trabalhadorDto.getNome());
-		trabalhador.setCpf(trabalhadorDto.getCpf());
-		trabalhador.setSexo(trabalhadorDto.getSexo());
-		trabalhador.setCargo(cargo);
-		trabalhador.setSetorTrabalhador(setor);
+		if (setorOptional.isPresent() && cargoOptional.isPresent()) {
 
-		Trabalhador trabalhadorSave = trabalhadorRepository.save(trabalhador);
+			trabalhador.setNome(trabalhadorDto.getNome());
+			trabalhador.setCpf(trabalhadorDto.getCpf());
+			trabalhador.setSexo(trabalhadorDto.getSexo());
+			trabalhador.setSetorTrabalhador(setorOptional.get());
+			trabalhador.setCargo(cargoOptional.get());
 
-		return trabalhadorMapperImpl.modelDto(trabalhadorSave);
+			Trabalhador trabalhadorSave = trabalhadorRepository.save(trabalhador);
+
+			return new TrabalhadorDto(trabalhadorSave);
+
+		} else {
+
+			throw new NotFoundException("Setor e cargo não existem");
+
+		}
+
 	}
 
-	public TrabalhadorDto atualizar(TrabalhadorDto tDto, Long id) {
+	public TrabalhadorDto atualizar(TrabalhadorDto tDto, Long id) throws Exception {
 
-		Trabalhador t = trabalhadorRepository.findById(id).get();
-		if (tDto.equals(" ")) {
-			return null;
+		Optional<Trabalhador> trabalhadorOptional = trabalhadorRepository.findById(id);
+
+		if (tDto.getNome().isEmpty() && tDto.getCpf().isEmpty()) {
+			throw new AccessException("Não pode ser nullo");
 		} else {
-			t.setNome(tDto.getNome());
-			t.setCpf(tDto.getCpf());
-			t.setSexo(tDto.getSexo());
-			Trabalhador tAtualizado = trabalhadorRepository.save(t);
-			return trabalhadorMapperImpl.modelDto(tAtualizado);
+			if (trabalhadorOptional.isPresent()) {
+				Trabalhador t = trabalhadorOptional.get();
+				t.setNome(tDto.getNome());
+				t.setCpf(tDto.getCpf());
+				t.setSexo(tDto.getSexo());
+				Trabalhador tAtualizado = trabalhadorRepository.save(t);
+				return new TrabalhadorDto(tAtualizado);
+			} else {
+				throw new NotFoundException("Não existe!");
+			}
+
 		}
 
 	}

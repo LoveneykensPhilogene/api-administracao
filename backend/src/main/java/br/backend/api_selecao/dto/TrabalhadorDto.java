@@ -2,6 +2,8 @@ package br.backend.api_selecao.dto;
 
 import java.io.Serializable;
 
+import br.backend.api_selecao.entities.Trabalhador;
+
 public class TrabalhadorDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +31,18 @@ public class TrabalhadorDto implements Serializable {
 		this.sexo = sexo;
 		this.setorTrabalhadorDto = setorTrabalhadorDto;
 		this.cargoDto = cargoDto;
+	}
+
+	public TrabalhadorDto(Trabalhador trabalhador) {
+		this.setId(trabalhador.getId());
+		this.setNome(trabalhador.getNome());
+		this.setCpf(trabalhador.getCpf());
+		this.setSexo(trabalhador.getSexo());
+		this.setCargoDto(new CargoDto(trabalhador.getCargo().getId(), trabalhador.getCargo().getNome(),
+				new SetorDto(trabalhador.getSetorTrabalhador().getId(), trabalhador.getSetorTrabalhador().getNome())));
+		this.setSetorTrabalhadorDto(
+				new SetorDto(trabalhador.getSetorTrabalhador().getId(), trabalhador.getSetorTrabalhador().getNome()));
+
 	}
 
 	public Long getId() {
