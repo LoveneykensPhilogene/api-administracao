@@ -1,3 +1,4 @@
+<html>
 <header>
 <h1>Api-administracao<h1>
 </header>
@@ -44,13 +45,16 @@
 </li>
 </ul>
 </p>
+
 <strong>
 Diagrama de classe:
 <img src="assets/SEA_solutions.svg" alt="SEA_solutions.svg">
 </strong>
+
 </body>
 
 <footer>
 <strong>Contato :</strong>
 <a href="https://www.linkedin.com/in/philogene/">Linkedin</a>
 </footer>
+</html>
