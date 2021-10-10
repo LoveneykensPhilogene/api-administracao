@@ -17,16 +17,14 @@
 <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
 </ul>
 </ol>
-
 <p>
 <strong>Gerenciameto de dependências</strong>
 <ul>
 <li>
-<a href="https://gradle.org/>Gradle</a>
+<a href="https://gradle.org/">Gradle</a>
 </li>
 </ul>
 </p>
-
 <p>Api-administracao permite criar e editar um Setor, adicionar um cargo ao setor, ao trabalhador e permite criar, editar um trabalhador.</p>
 <p>
 <strong>Regra de negócios</strong>
@@ -45,7 +43,6 @@
 </li>
 </ul>
 </p>
-
 <strong>
 Diagrama de classe:
 <img src="assets/SEA_solutions.svg" alt="SEA_solutions.svg">
