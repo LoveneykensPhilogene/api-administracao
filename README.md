@@ -46,8 +46,9 @@
 <p>
 <strong>
 Diagrama de classe:</strong>
+</p>
 <img src="assets/SEA_solutions.svg" alt="SEA_solutions.svg">
-</P>
+
 
 </body>
 
