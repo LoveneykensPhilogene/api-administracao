@@ -43,10 +43,11 @@
 </li>
 </ul>
 </p>
+<p>
 <strong>
-Diagrama de classe:
+Diagrama de classe:</strong>
 <img src="assets/SEA_solutions.svg" alt="SEA_solutions.svg">
-</strong>
+</P>
 
 </body>
 
