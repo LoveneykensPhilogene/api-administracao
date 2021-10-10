@@ -18,7 +18,7 @@
 </ul>
 </ol>
 <p>
-<strong>Gerenciameto de dependências</strong>
+<strong>Gerenciamento de dependências</strong>
 <ul>
 <li>
 <a href="https://gradle.org/">Gradle</a>
