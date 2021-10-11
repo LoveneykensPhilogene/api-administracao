@@ -7,5 +7,6 @@ import br.backend.api_selecao.entities.Trabalhador;
 
 @Repository
 public interface TrabalhadorRepository extends JpaRepository<Trabalhador,Long>{
+	String findByCpf(String cpf);
 
 }
