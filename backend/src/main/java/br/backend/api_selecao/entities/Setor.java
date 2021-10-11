@@ -12,15 +12,19 @@ import javax.persistence.OneToMany;
 
 import com.sun.istack.NotNull;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Setor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(value = "Código do setor")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@ApiModelProperty(value = "Nome do setor")
 	@Column(unique=true)
 	@NotNull
 	private String nome;
