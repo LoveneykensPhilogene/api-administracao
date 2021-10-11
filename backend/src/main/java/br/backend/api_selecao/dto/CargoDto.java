@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.backend.api_selecao.entities.Cargo;
-import br.backend.api_selecao.entities.Setor;
 import br.backend.api_selecao.entities.Trabalhador;
 
 public class CargoDto implements Serializable {
