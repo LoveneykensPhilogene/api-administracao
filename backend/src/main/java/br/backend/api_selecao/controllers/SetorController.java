@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.backend.api_selecao.dto.CargoDto;
 import br.backend.api_selecao.dto.SetorDto;
 import br.backend.api_selecao.services.SetorService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/")
@@ -26,26 +30,43 @@ public class SetorController {
 	@Autowired
 	private SetorService setorService;
 
-	@PostMapping("/setor")
+	@ApiOperation(value = "Retorna um setor cadastrado")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um setor cadastrado"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@PostMapping(value = "/setor", produces = "application/json", consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public SetorDto criarSetor(@Validated @RequestBody SetorDto setorDto) {
+	public SetorDto criarSetor(@Validated @RequestBody SetorDto setorDto) throws NullPointerException {
 
 		return setorService.criar(setorDto);
 	}
 
-	@GetMapping("/setores")
+	@ApiOperation(value = "Retorna uma lista de setores")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma lista de setores"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@GetMapping(value = "/setores", produces="application/json")
 	@ResponseStatus(HttpStatus.OK)
 	public List<SetorDto> findAll() {
 		return setorService.findAll();
 	}
 
-	@PutMapping("/{nome}")
+	@ApiOperation(value = "Atualiza um setor / Retorna setor atualizado")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um setor cadastrado"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@PutMapping(value = "/{nome}", produces = "application/json", consumes = "application/json")
 	@ResponseStatus(HttpStatus.OK)
-	public SetorDto editar(@Validated @PathVariable String nome, @Validated @RequestParam Long idCargo) {
+	public SetorDto editar(@Validated @PathVariable String nome, @Validated @RequestBody CargoDto cargoDto)
+			throws Exception {
 
-		return setorService.editar(nome, idCargo);
+		return setorService.editar(nome, cargoDto);
 	}
 
+	@ApiOperation(value = "Exlui um setor / Retorna setor excluido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um setor excluido"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.OK)
 	public SetorDto excluir(@Validated @RequestParam Long id) {
