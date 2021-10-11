@@ -22,7 +22,7 @@ public class CargoService {
 
 	@Autowired
 	private SetorRepository setorRepository;
-
+	
 	public CargoDto criar(CargoDto cargoDto, Long idSetor) throws NotFoundException {
 
 		Cargo cargo = new Cargo();

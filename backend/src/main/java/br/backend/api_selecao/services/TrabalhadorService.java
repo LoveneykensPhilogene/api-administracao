@@ -1,5 +1,6 @@
 package br.backend.api_selecao.services;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,36 +28,39 @@ public class TrabalhadorService {
 	@Autowired
 	private CargoRepository cargoRepository;
 
-	public TrabalhadorDto adicionar(TrabalhadorDto trabalhadorDto, Long idSetor, Long idCargo)
-			throws NotFoundException {
+	public TrabalhadorDto adicionar(TrabalhadorDto trabalhadorDto, Long idSetor, Long idCargo) throws SQLException, NotFoundException  {
 
 		Trabalhador trabalhador = new Trabalhador();
-
-		Optional<Setor> setorOptional = setorRepository.findById(idSetor);
-
-		Optional<Cargo> cargoOptional = cargoRepository.findById(idCargo);
-
-		if (setorOptional.isPresent() && cargoOptional.isPresent()) {
-
-			trabalhador.setNome(trabalhadorDto.getNome());
-			trabalhador.setCpf(trabalhadorDto.getCpf());
-			trabalhador.setSexo(trabalhadorDto.getSexo());
-			trabalhador.setSetorTrabalhador(setorOptional.get());
-			trabalhador.setCargo(cargoOptional.get());
-
-			Trabalhador trabalhadorSave = trabalhadorRepository.save(trabalhador);
-
-			return new TrabalhadorDto(trabalhadorSave);
-
+		String cpfExiste = trabalhadorRepository.findByCpf(trabalhadorDto.getCpf());
+		if (cpfExiste!= null) {
+			throw new SQLException("Cpf já existiu");
 		} else {
 
-			throw new NotFoundException("Setor e cargo não existem");
+			Optional<Setor> setorOptional = setorRepository.findById(idSetor);
 
+			Optional<Cargo> cargoOptional = cargoRepository.findById(idCargo);
+
+			if (setorOptional.isPresent() && cargoOptional.isPresent()) {
+
+				trabalhador.setNome(trabalhadorDto.getNome());
+				trabalhador.setCpf(trabalhadorDto.getCpf());
+				trabalhador.setSexo(trabalhadorDto.getSexo());
+				trabalhador.setSetorTrabalhador(setorOptional.get());
+				trabalhador.setCargo(cargoOptional.get());
+				Trabalhador trabalhadorSave = trabalhadorRepository.save(trabalhador);
+
+				return new TrabalhadorDto(trabalhadorSave);
+
+			} else {
+
+				throw new NotFoundException("Setor e cargo não existem");
+
+			}
 		}
 
 	}
 
-	public TrabalhadorDto atualizar(TrabalhadorDto tDto, Long id) throws Exception {
+	public TrabalhadorDto atualizar(TrabalhadorDto tDto, Long id) throws AccessException, NotFoundException {
 
 		Optional<Trabalhador> trabalhadorOptional = trabalhadorRepository.findById(id);
 
@@ -64,11 +68,11 @@ public class TrabalhadorService {
 			throw new AccessException("Não pode ser nullo");
 		} else {
 			if (trabalhadorOptional.isPresent()) {
-				Trabalhador t = trabalhadorOptional.get();
-				t.setNome(tDto.getNome());
-				t.setCpf(tDto.getCpf());
-				t.setSexo(tDto.getSexo());
-				Trabalhador tAtualizado = trabalhadorRepository.save(t);
+				Trabalhador trabalhador = trabalhadorOptional.get();
+				trabalhador.setNome(tDto.getNome());
+				trabalhador.setCpf(tDto.getCpf());
+				trabalhador.setSexo(tDto.getSexo());
+				Trabalhador tAtualizado = trabalhadorRepository.save(trabalhador);
 				return new TrabalhadorDto(tAtualizado);
 			} else {
 				throw new NotFoundException("Não existe!");
